@@ -1,10 +1,93 @@
-/*
-	Put anything you reference with "url()" in ../assets/
-	This way, you can minify your application, and just remove the "source" folder for production
-*/
-#app {
-	margin: 16px;
-	border-radius: 4px;
-	background-color: silver;
-	padding: 16px;
+.tab {
+	background: whitesmoke;
+	border: 1px dotted silver;
+	padding: 8px;
+	margin: 0;
+}
+
+.tab.active {
+	background: lightblue;
+}
+
+.input-decorator {
+	padding: 6px 8px 10px 8px;
+	border-radius: 3px;
+	border: 1px solid;
+	border-color: rgba(0,0,0,0.1);
+	margin: 0;
+}
+
+.input-decorator > input {
+	/* reset */
+	margin: 0;
+	padding: 0;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	background-color: transparent;
+	font-size: 16px;
+	box-shadow: none;
+	/* FIXME: hack for styling reset on Android */
+	/* -webkit-appearance: caret;*/
+}
+
+.packages-editor {
+	background: lightgrey;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+#app_left {
+	width: 300px;
+	border: 1px solid orange;
+}
+
+#app_left_tabs {
+	background: #eee;
+}
+
+#app_kinds {
+	padding: 8px;
+}
+
+#app_index {
+	padding: 8px;
+	font-size: smaller;
+}
+
+#app_modules {
+	padding: 8px;
+}
+
+#app_packages {
+	padding: 8px;
+}
+
+#app_doc {
+	padding: 8px 8px;
+}
+
+#app_scope {
+	padding: 8px;
+	border-bottom: 1px dotted silver;
+}
+
+#app_header {
+	padding: 8px;
+}
+
+#app_tocFrame {
+	white-space: nowrap;
+}
+
+#app_toc {
+}
+
+#app_bodyFrame {
+}
+
+#app_body {
+	padding: 8px;
+	padding-bottom: 1024px;
 }
