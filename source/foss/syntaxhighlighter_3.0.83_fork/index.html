@@ -1,0 +1,19 @@
+﻿<!doctype html>
+<html>
+<head>
+	<title></title>
+	<link href="source/shCoreDefault.css" rel="stylesheet" type="text/css" />
+	<script src="source/xregexp-min.js" type="text/javascript"></script>
+	<script src="source/shCore.js" type="text/javascript"></script>
+	<script src="source/shBrushJScript.js" type="text/javascript"></script>
+	<script src="source/fork.js" type="text/javascript"></script>
+</head>
+<body>
+	<script>
+		var code = 'enyo.kind({\n	name: "App",\n	kind: "Control",\n	components: [\n		{kind: "Viewer", classes: "enyo-fit", onSearch: "search", onSelect: "select", components: [\n			{kind: "YouTube", classes: "enyo-fit", showing: false}\n		]}\n	],\n	search: function(inSender, inSearch) {\n		enyo.YouTube.search(inSearch).response(this, "receiveResults");\n	},\n	receiveResults: function(inSender, inResults) {\n		this.$.viewer.showResults(inResults);\n	},\n	select: function(inSender, inData) {\n		var id = inData.id;\n		this.$.youTube.setShowing(true);\n		this.$.youTube.setVideoId(id);\n		enyo.YouTube.search(id, true).response(this, "receiveRelatedResults");\n	},\n	receiveRelatedResults: function(inSender, inResults) {\n		this.$.viewer.showRelatedResults(inResults);\n	}\n});';
+		document.write(syntaxHighlight(code));
+		document.write("<hr/>");
+		document.write(syntaxHighlight(code));
+	</script>
+</body>
+</html>
