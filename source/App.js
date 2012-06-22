@@ -4,7 +4,7 @@ enyo.kind({
 	kind: "FittableColumns",
 	components: [
 		{kind: "Analyzer", onIndexReady: "indexReady"},
-		{name: "left", kind: "TabPanels", components: [
+		{name: "left", kind: "TabPanels", classes: "enyo-unselectable", components: [
 			{kind: "Scroller", tabName: "Kinds", components: [
 				{name: "kinds", allowHtml: true}
 			]},
