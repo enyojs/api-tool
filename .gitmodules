@@ -10,3 +10,6 @@
 [submodule "lib/extra"]
 	path = lib/extra
 	url = https://github.com/enyojs/extra.git
+[submodule "lib/canvas"]
+	path = lib/canvas
+	url = https://github.com/enyojs/canvas.git
