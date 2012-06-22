@@ -26,7 +26,7 @@ enyo.kind({
 			{name: "tocFrame", kind: "Scroller", components: [
 				{name: "toc", allowHtml: true}
 			]},
-			{name: "bodyFrame", kind: "Scroller", fit: true, components: [
+			{name: "bodyFrame", kind: "Scroller", fit: true, classes: "enyo-selectable", components: [
 				{name: "indexBusy", kind: "Image", src: "assets/busy.gif", style: "padding-left: 8px;", showing: false},
 				{name: "body", allowHtml: true}
 			]}
