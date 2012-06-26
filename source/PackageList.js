@@ -18,7 +18,7 @@ enyo.kind({
 		onSetupItem: "setupItem"
 	},
 	fetchPackageData: function() {
-		new enyo.Ajax({url: "manifest.json"})
+		new enyo.Ajax({url: "assets/manifest.json"})
 			.response(this, function(inSender, inPackages) {
 				this.gotPackageData(inPackages);
 			})
