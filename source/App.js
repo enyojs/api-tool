@@ -53,7 +53,7 @@ enyo.kind({
 		var paths = [];
 		enyo.forEach(inEvent.packages, function(e) {
 			if (!e.disabled) {
-				paths.push(e.path);
+				paths.push({ path: e.path, label: e.name});
 			}
 		});
 		this.walk(paths);

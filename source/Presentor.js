@@ -26,11 +26,12 @@ enyo.kind({
 	presentObjects: function(inObjects) {
 		var o$ = this.groupFilter(inObjects);
 		var html = '';
+		var i, o;
 		//
 		var objs = this.getByType(o$, "kind");
 		if (objs.length) {
 			html += "<h3>Kinds</h3>";
-			for (var i=0, o; o=objs[i]; i++) {
+			for (i=0; o=objs[i]; i++) {
 				//w("<i>name:</i> ");
 				html += "<kind>" + o.name + "</kind><br/>";
 				html += this.presentComment(o.comment);
@@ -39,18 +40,18 @@ enyo.kind({
 			}
 		}
 		//
-		var objs = this.getByType(o$, "function");
+		objs = this.getByType(o$, "function");
 		html += "<h3>Functions</h3>";
-		for (var i=0, o; o=objs[i]; i++) {
+		for (i=0; o=objs[i]; i++) {
 			html += this.presentComment(o.comment);
 			if (o.group) {
 				html += "<" + o.group + ">" + o.group + "</" + o.group  + ">";
 			}
-			html += "<i>name:</i> <label>" + o.name + "(<arguments>" + o.value[0].arguments.join(", ") + "</arguments>)</label><br/>";
+			html += "<i>name:</i> <label>" + o.name + "(<arguments>" + o.value[0]['arguments'].join(", ") + "</arguments>)</label><br/>";
 		}
 		html += "<h3>Variables</h3>";
-		var objs = this.getByType(o$, "global");
-		for (var i=0, o; o=objs[i]; i++) {
+		objs = this.getByType(o$, "global");
+		for (i=0; o=objs[i]; i++) {
 			html += this.presentComment(o.comment);
 			if (o.group) {
 				html += "<" + o.group + ">" + o.group + "</" + o.group  + ">";
@@ -70,7 +71,11 @@ enyo.kind({
 		return this.presentKindHeader(inKind) + this.presentKindSummary(inKind) + this.presentKindProperties(inKind);
 	},
 	presentKindHeader: function(inKind) {
-		var html = '<kind>' + inKind.name + '</kind>';
+		var html = '';
+		if (inKind.module && inKind.module.label) {
+			html += '<package>' + inKind.module.label + '</package>';
+		}
+		html += '<kind>' + inKind.name + '</kind>';
 		if (inKind.superkinds.length) {
 			//html += '<h3>Extends</h3>';
 			html += '<div style="padding: 4px 0px;">';
@@ -91,7 +96,7 @@ enyo.kind({
 					;
 			});
 			html += '</div>';
-		};
+		}
 		return html;
 	},
 	presentKindSummary: function(inKind) {
@@ -105,7 +110,7 @@ enyo.kind({
 		return html;
 	},
 	presentKindProperties: function(inKind) {
-		return this.presentProperties(this.showInherited ? inKind.allProperties : inKind.properties, inKind)
+		return this.presentProperties(this.showInherited ? inKind.allProperties : inKind.properties, inKind);
 	},
 	groupFilter: function(inProperties) {
 		return enyo.filter(inProperties, function(p) {
@@ -137,7 +142,7 @@ enyo.kind({
 		// right-hand side
 		if (o.value && o.value[0] && o.value[0].token == "function") {
 			// function signature 
-			html += "function(<arguments>" + o.value[0].arguments.join(", ") + "</arguments>)<br/>";
+			html += "function(<arguments>" + o.value[0]['arguments'].join(", ") + "</arguments>)<br/>";
 		} else {
 			// value
 			html += this.presentValue(o);

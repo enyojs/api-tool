@@ -5,7 +5,6 @@ blockquote {
 
 blockquote hr {
 	border: 0;
-	Xmargin: 0;
 }
 
 hr {
@@ -25,6 +24,9 @@ a:hover {
 	text-decoration: none;
 	text-shadow: 0 0 2px orange;
 	-webkit-transition: text-shadow 0.5s;
+	-moz-transition: text-shadow 0.5s;
+	-o-transition: text-shadow 0.5s;
+	-ms-transition: text-shadow 0.5s;
 }
 
 /*
@@ -83,6 +85,14 @@ kind {
 	font-size: x-large;
 	font-weight: bold;
 	display: block;
+}
+
+package {
+	color: black; 
+	background-color: #B0E0E6; 
+	font-size: 10pt; 
+	padding: 3pt;
+	float: right;
 }
 
 superkind {
