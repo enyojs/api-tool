@@ -39,7 +39,7 @@
 }
 
 #app_left {
-	width: 300px;
+	width: 350px;
 	border: 1px solid orange;
 }
 
@@ -49,19 +49,22 @@
 
 #app_kinds {
 	padding: 8px;
+	font-size: 25px
 }
 
 #app_index {
 	padding: 8px;
-	font-size: smaller;
+	font-size: 20px;
 }
 
 #app_modules {
 	padding: 8px;
+	font-size: 25px;
 }
 
 #app_packages {
 	padding: 8px;
+	font-size: 25px
 }
 
 #app_doc {
