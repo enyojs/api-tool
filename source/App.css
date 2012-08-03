@@ -49,6 +49,7 @@
 
 #app_kinds {
 	padding: 8px;
+	font-size: 25px
 }
 
 #app_index {
@@ -63,6 +64,7 @@
 
 #app_packages {
 	padding: 8px;
+	font-size: 25px
 }
 
 #app_doc {
