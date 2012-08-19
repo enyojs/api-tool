@@ -25,7 +25,7 @@
 	outline: none;
 	cursor: pointer;
 	background-color: transparent;
-	font-size: 16px;
+	font-size: 120%;
 	box-shadow: none;
 	/* FIXME: hack for styling reset on Android */
 	/* -webkit-appearance: caret;*/
@@ -45,26 +45,27 @@
 
 #app_left_tabs {
 	background: #eee;
+	font-size: 120%;
 }
 
 #app_kinds {
 	padding: 8px;
-	font-size: 25px
+	font-size: 140%;
 }
 
 #app_index {
 	padding: 8px;
-	font-size: 20px;
+	font-size: 120%;
 }
 
 #app_modules {
 	padding: 8px;
-	font-size: 25px;
+	font-size: 140%;
 }
 
 #app_packages {
 	padding: 8px;
-	font-size: 25px
+	font-size: 140%;
 }
 
 #app_doc {
