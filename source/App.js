@@ -106,7 +106,7 @@ enyo.kind({
 				divider: o.name[0].toUpperCase(),
 				object: o.object && o.object.name ? o.object.name + "::" : "",
 				module: !o.object && o.module && o.module.name ? " [" + o.module.name + "]" : ""
-			}
+			};
 		};
 		this.$.index.setContent(this.indexalize(inFilter, template, map));
 	},
@@ -126,7 +126,7 @@ enyo.kind({
 				link: o.topic || o.name,
 				topic: o.name,
 				divider: o.name[0].toUpperCase()
-			}
+			};
 		};
 		this.$.modules.setContent(this.indexalize(filter, template, map));
 	},
@@ -140,44 +140,54 @@ enyo.kind({
 				link: o.topic || o.name,
 				topic: o.name,
 				divider: o.name.split(".")[0]
-			}
+			};
 		};
 		this.$.kinds.setContent(this.indexalize(filter, template, map));
 	},
 	// docs
 	presentObject: function(inObject) {
-		switch (inObject && inObject.type) {
-			case "kind":
-				this.presentKind(inObject);
-				break;
-			//
-			default:
-				this.$.header.setContent("");
-				this.$.toc.setContent("");
-				this.$.doc.reflow();
-				//
-				var body = "";
-				if (inObject) {
-					body = this.presentor.presentObject(inObject)
-				}
-				this.$.body.setContent(body);
-				break;
+		// early exit for bad inObject
+		if (!inObject || !inObject.type) {
+			return;
 		}
+		// special handling for kinds
+		if (inObject.type === "kind") {
+			this.$.header.show();
+			this.presentKind(inObject);
+			return;
+		}
+		// show everything else with presentObject
+		if (inObject.type === "module") {
+			this.$.header.show();
+			this.$.header.setContent("<moduleName>" + inObject.name + "</moduleName>");
+		} else {
+			this.$.header.hide();
+			this.$.header.setContent("");
+		}
+		this.$.toc.setContent("");
+		this.$.doc.reflow();
+		//
+		var body = "";
+		if (inObject) {
+			body = this.presentor.presentObject(inObject);
+		}
+		this.$.body.setContent(body);
 	},
 	presentKind: function(inKind) {
 		this.$.header.setContent(this.presentor.presentKindHeader(inKind));
 		//
-		var p$ = this.presentor.showInherited ? inKind.allProperties : inKind.properties;
-		p$.sort(Indexer.nameCompare);
+		var toc$ = this.presentor.showInherited ? inKind.allProperties : inKind.properties;
+		toc$ = this.presentor.inlineProperties(toc$, {"published":1, "statics":1, "events":1});
+		toc$.sort(Indexer.nameCompare);
 		//
-		var toc = this.presentor.presentColumns(p$, inKind);
+		var toc = this.presentor.presentColumns(toc$, inKind);
 		this.$.toc.setContent(toc);
 		//this.$.toc.setContent('<h3>Properties</h3>' + toc);
 		//
 		var body = this.presentor.presentKindSummary(inKind);
-		var p$ = this.presentor.presentKindProperties(inKind)
-		if (p$) {
-			body += '<h3>Properties</h3>' + p$;
+		var pr$ = this.presentor.presentKindProperties(inKind);
+		if (pr$) {
+			body += '<h3>Properties</h3>' + pr$;
 		}
 		this.$.body.setContent(body);
 		//

@@ -82,7 +82,7 @@ published {
 }
 
 kind {
-	font-size: x-large;
+	font-size: 130%;
 	font-weight: bold;
 	display: block;
 }
@@ -90,9 +90,15 @@ kind {
 package {
 	color: black; 
 	background-color: #B0E0E6; 
-	font-size: 10pt; 
+	font-size: 90%; 
 	padding: 3pt;
 	float: right;
+}
+
+moduleName {
+	font-size: 130%;
+	font-weight: bold;
+	display: block;
 }
 
 superkind {
@@ -135,7 +141,7 @@ column {
 divider {
 	display: block;
 	color: #0D0D0D;
-	font-size: 18px;
+	font-size: 120%;
 	font-weight: bold;
 	margin-left: -1px;
 	margin-top: 1em;

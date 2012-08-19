@@ -41,25 +41,30 @@ enyo.kind({
 		}
 		//
 		objs = this.getByType(o$, "function");
-		html += "<h3>Functions</h3>";
-		for (i=0; o=objs[i]; i++) {
-			html += this.presentComment(o.comment);
-			if (o.group) {
-				html += "<" + o.group + ">" + o.group + "</" + o.group  + ">";
+		if (objs.length) {
+			html += "<h3>Functions</h3>";
+			for (i=0; o=objs[i]; i++) {
+				html += this.presentComment(o.comment);
+				if (o.group) {
+					html += "<" + o.group + ">" + o.group + "</" + o.group  + ">";
+				}
+				html += "<i>name:</i> <label>" + o.name + "(<arguments>" + o.value[0]['arguments'].join(", ") + "</arguments>)</label><br/>";
 			}
-			html += "<i>name:</i> <label>" + o.name + "(<arguments>" + o.value[0]['arguments'].join(", ") + "</arguments>)</label><br/>";
 		}
-		html += "<h3>Variables</h3>";
+		//
 		objs = this.getByType(o$, "global");
-		for (i=0; o=objs[i]; i++) {
-			html += this.presentComment(o.comment);
-			if (o.group) {
-				html += "<" + o.group + ">" + o.group + "</" + o.group  + ">";
+		if (objs.length) {
+			html += "<h3>Variables</h3>";
+			for (i=0; o=objs[i]; i++) {
+				html += this.presentComment(o.comment);
+				if (o.group) {
+					html += "<" + o.group + ">" + o.group + "</" + o.group  + ">";
+				}
+				//html += "<i>name:</i> <label>" + o.name + "</label><br/>";
+				html += "<label>" + o.name + "</label> = ";
+				html += this.presentExpression(o.value[0]);
+				html += "<br/>";
 			}
-			//html += "<i>name:</i> <label>" + o.name + "</label><br/>";
-			html += "<label>" + o.name + "</label> = ";
-			html += this.presentExpression(o.value[0]);
-			html += "<br/>";
 		}
 		//
 		return html;
@@ -220,6 +225,30 @@ enyo.kind({
 			return "<pre>" + syntaxHighlight(c) + "</pre>";
 		});
 		return html;
+	},
+	// returns a new list where the properties of objects mentioned as
+	// properties of the inPropNames argument have been added as top-level
+	// members, but the mentioned top-level members have been removed.  Each
+	// element that is in a found hash has a new property, parentHash, that
+	// lists the name of the parent.
+	//
+	// ex: var toc$ = this.presentor.inlineProperties(p$, {"published":1, "statics":1, "events":1});
+	inlineProperties: function(inList, inPropNames) {
+		var newProps = [];
+		var addParentHash = function(pr) { pr.parentHash = p.name; };
+		for (var i = 0, p; (p = inList[i]); i++) {
+			if (inPropNames[p.name]) {
+				// add the properties from p into newProps
+				if (p.value && p.value[0] && p.value[0].properties) {
+					enyo.forEach(p.value[0].properties, addParentHash);
+					newProps = newProps.concat(p.value[0].properties);
+				}
+			} else {
+				// add the property directly
+				newProps.push(p);
+			}
+		}
+		return newProps;
 	},
 	statics: {
 		showdown: new Showdown.converter()
