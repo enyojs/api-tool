@@ -49,6 +49,8 @@ enyo.kind({
 		this.$.packages.loadPackageData();
 	},
 	packagesLoaded: function(inSender, inEvent) {
+		// update our version in title bar
+		document.title = "Enyo API Viewer (" + inEvent.version + ")";
 		// walk the selected packages
 		var paths = [];
 		enyo.forEach(inEvent.packages, function(e) {

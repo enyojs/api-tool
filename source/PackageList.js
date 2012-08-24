@@ -6,10 +6,14 @@ enyo.kind({
 				{kind: "Checkbox", onchange: "cbChange"}
 			]}
 		]},
+		{name: "version", style: "padding-top: 20px"},
 		//{kind: "Button", content: "Edit Packages", style: "float: right;", ontap: "editPackages"},
 		//{kind: "Button", content: "Reload", style: "float: right;", ontap: "doPackagesChange"},
 		{kind: "PackagesEditor", modal: true, centered: true, floating: true, onSave: "savePackages"}
 	],
+	published: {
+		version: ""
+	},
 	events: {
 		onPackagesChange: "",
 		onLoaded: ""
@@ -17,17 +21,25 @@ enyo.kind({
 	handlers: {
 		onSetupItem: "setupItem"
 	},
+	create: function() {
+		this.inherited(arguments);
+		this.versionChanged();
+	},
+	versionChanged: function() {
+		this.$.version.setContent("Content Version: " + this.version);
+	},
 	fetchPackageData: function() {
 		new enyo.Ajax({url: "assets/manifest.json"})
-			.response(this, function(inSender, inPackages) {
-				this.gotPackageData(inPackages);
+			.response(this, function(inSender, inData) {
+				this.setVersion(inData.version);
+				this.gotPackageData(inData.packages);
 			})
 			.go();
 	},
 	gotPackageData: function(inPackages) {
 		this.pkgs = inPackages;
 		this.$.repeater.setCount(this.pkgs.length);
-		this.doLoaded({packages: this.pkgs});
+		this.doLoaded({packages: this.pkgs, version: this.version});
 	},
 	loadPackageData: function() {
 		// when there is UI to customize the packages list, we can persist it this way
