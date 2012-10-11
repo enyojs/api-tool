@@ -27,6 +27,7 @@ enyo.kind({
 		var o$ = this.groupFilter(inObjects);
 		var html = '';
 		var i, o;
+		var publicMethods = false;
 		//
 		var objs = this.getByType(o$, "kind");
 		if (objs.length) {
@@ -38,18 +39,21 @@ enyo.kind({
 				//html += "<blockquote>" + this.presentKind(o) + "</blockquote>";
 				//html += this.presentKind(o);
 			}
+			publicMethods = true;
 		}
 		//
 		objs = this.getByType(o$, "function");
 		if (objs.length) {
 			html += "<h3>Functions</h3>";
 			for (i=0; o=objs[i]; i++) {
-				html += this.presentComment(o.comment);
 				if (o.group) {
 					html += "<" + o.group + ">" + o.group + "</" + o.group  + ">";
 				}
-				html += "<i>name:</i> <label>" + o.name + "(<arguments>" + o.value[0]['arguments'].join(", ") + "</arguments>)</label><br/>";
+				html += "<label>" + o.name + "</label>: function(<arguments>" + o.value[0]['arguments'].join(", ") + "</arguments>)</label><br/>"
+			    html += this.presentComment(o.comment);
+
 			}
+			publicMethods = true;
 		}
 		//
 		objs = this.getByType(o$, "global");
@@ -65,8 +69,12 @@ enyo.kind({
 				html += this.presentExpression(o.value[0]);
 				html += "<br/>";
 			}
+			publicMethods = true;
 		}
-		//
+		//if object only has private fields and functions
+		if (!publicMethods) {
+		    html += "<h3>This module has no public properties or functions to display.</h3>";
+		}
 		return html;
 	},
 	presentComment: function(inComment) {
@@ -139,7 +147,7 @@ enyo.kind({
 			html += "<" + o.group + ">" + o.group + "</" + o.group  + ">";
 		}
 		// name (and possible ancestor)
-		var n = o.name;
+		var n = o.name.replace(".prototype", ""); //for g11n remove .prototype from function name
 		if (o.object && inSource && inSource != o.object) {
 			n = '<prototype>' + o.object.name + '::</prototype>' + n;
 		}
