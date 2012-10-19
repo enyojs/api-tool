@@ -10,7 +10,6 @@
 		{"name": "onyx", "path": "lib/onyx"},
 		{"name": "canvas", "path": "lib/canvas"},
 		{"name": "g11n/base", "path": "lib/g11n"},
-		{"name": "g11n/address", "path": "lib/g11n/source/address"},
 		{"name": "g11n/name", "path": "lib/g11n/source/name"},
 		{"name": "g11n/phone", "path": "lib/g11n/source/phone"}
 	]
