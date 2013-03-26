@@ -53,11 +53,16 @@ enyo.kind({
 		document.title = "Enyo API Viewer (" + inEvent.version + ")";
 		// walk the selected packages
 		var paths = [];
-		enyo.forEach(inEvent.packages, function(e) {
-			if (!e.disabled) {
-				paths.push({ path: e.path, label: e.name});
+		this.hidden = [];
+		for(var i=0; i<inEvent.packages.length; i++) {
+			var curr = inEvent.packages[i];
+			if(!inEvent.packages[i].disabled) {
+				paths.push({ path: curr.path, label: curr.name});
 			}
-		});
+			if(curr.hidden) {
+				this.hidden.push(curr.name);
+			}
+		}
 		this.walk(paths);
 		return true;
 	},
@@ -90,15 +95,22 @@ enyo.kind({
 
 		var html = '', divider;
 		for (var i=0, o; o=filtered[i]; i++) {
-			// divider
-			var d = inMap(o).divider;
-			if (d && divider != d) {
-				divider = d;
-				html += "<divider>" + d + "</divider>";
+			if(this.visibleModule(o)) {
+				// divider
+				var d = inMap(o).divider;
+				if (d && divider != d) {
+					divider = d;
+					html += "<divider>" + d + "</divider>";
+				}
+				html += enyo.macroize(inTemplate, inMap(o));
 			}
-			html += enyo.macroize(inTemplate, inMap(o));
 		}
 		return html;
+	},
+	visibleModule: function(o) {
+		var mdl = o.module || ((o.object) ? o.object.module : undefined);
+		var lbl = (mdl) ? mdl.label : (o.label);
+		return (this.hidden.indexOf(lbl)<0);
 	},
 	//special case to exclude the path when sorting modules & only use the file name (g11n workaround)
 	moduleCompare: function(inA, inB) {
