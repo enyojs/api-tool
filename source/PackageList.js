@@ -2,7 +2,7 @@ enyo.kind({
 	name: "PackageList",
 	components: [
 		{kind: "Repeater", components: [
-			{components: [
+			{name:"row", components: [
 				{kind: "Checkbox", onchange: "cbChange"}
 			]}
 		]},
@@ -64,6 +64,7 @@ enyo.kind({
 		var cb = inEvent.item.$.checkbox;
 		cb.setContent(r.name);
 		cb.setChecked(!r.disabled);
+		inEvent.item.$.row.setShowing(!r.hidden);
 	},
 	cbChange: function(inSender, inEvent) {
 		var index = inEvent.index;
