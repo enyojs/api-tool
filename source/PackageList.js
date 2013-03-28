@@ -38,8 +38,51 @@ enyo.kind({
 	},
 	gotPackageData: function(inPackages) {
 		this.pkgs = inPackages;
+		this.adjustForSearchQuery();
+		this.adjustForHashQuery();
 		this.$.repeater.setCount(this.pkgs.length);
 		this.doLoaded({packages: this.pkgs, version: this.version});
+	},
+	adjustForSearchQuery: function() {
+		var q = document.location.search;
+		if(q.length > 1) {
+			window.onhashchange = null;
+			var hash = (window.location.hash.length>1) ? window.location.hash : "#";
+			hash += document.location.search;
+			document.location.href = document.location.href.split("?")[0] + hash;
+		}
+	},
+	adjustForHashQuery: function() {
+		var q = document.location.hash.split("?");
+		if(q && q.length==2) {
+			var overrides = q[1].split("&");
+			for(var i=0; i<overrides.length; i++) {
+				var pair = overrides[i].split("=");
+				if(pair.length==2) {
+					//search for package name
+					for(var j=0; j<this.pkgs.length; j++) {
+						if(this.pkgs[j].name===decodeURIComponent(pair[0])) {
+							//apply override
+							var values = pair[1].split(",");
+							for(var k=0; k<values.length; k++) {
+								if(values[k]==="disabled") {
+									this.pkgs[j].disabled = true;
+								} else if(values[k]==="enabled") {
+									this.pkgs[j].disabled = false;
+								} else if(values[k]==="hidden") {
+									this.pkgs[j].hidden = true;
+								} else if(values[k]==="visible") {
+									this.pkgs[j].hidden = false;
+								}
+
+							}
+							break;
+						}
+					}
+				}
+			}
+			document.location.hash = q[0];
+		}
 	},
 	loadPackageData: function() {
 		// when there is UI to customize the packages list, we can persist it this way

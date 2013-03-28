@@ -245,7 +245,11 @@ enyo.kind({
 	},
 	//
 	hashChange: function(inEvent) {
-		this.selectTopic(this.getHashTopic());
+		if(window.location.hash.indexOf("?")>-1) {
+			this.loadPackages();
+		} else {
+			this.selectTopic(this.getHashTopic());
+		}
 	},
 	getHashTopic: function() {
 		return window.location.hash.slice(1);
