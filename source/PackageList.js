@@ -29,7 +29,7 @@ enyo.kind({
 		this.$.version.setContent("Content Version: " + this.version);
 	},
 	fetchPackageData: function() {
-		new enyo.Ajax({url: "assets/manifest.json"})
+		new enyo.Ajax({url: "assets/manifest.json", mimeType: "application/json"})
 			.response(this, function(inSender, inData) {
 				this.setVersion(inData.version);
 				this.gotPackageData(inData.packages);

@@ -21,7 +21,7 @@ enyo.kind({
 		// change tab hilight
 		this.$.tabs.getControls()[inIndex].setActive(true);
 		// show the page
-		for (var i=0, c$ = this.getClientControls(), c; c=c$[i]; i++) {
+		for (var i=0, c$ = this.getClientControls(), c; (c=c$[i]); i++) {
 			c.setShowing(i == inIndex);
 		}
 	},

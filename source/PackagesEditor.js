@@ -42,9 +42,9 @@ enyo.kind({
 	},
 	save: function() {
 		var pkgs = [];
-		for (var i=0, c; c=this.$.repeater.getClientControls()[i]; i++) {
+		for (var i=0, c; (c=this.$.repeater.getClientControls()[i]); i++) {
 			var n = c.$.name.getValue();
-			var p = c.$.path.getValue(); 
+			var p = c.$.path.getValue();
 			if (n && p) {
 				pkgs.push({name: n, path: p});
 			}

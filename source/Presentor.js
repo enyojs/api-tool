@@ -1,3 +1,4 @@
+/* global syntaxHighlight, Showdown, Presentor */
 enyo.kind({
 	name: "Presentor",
 	kind: null,
@@ -5,7 +6,7 @@ enyo.kind({
 	showProtected: false,
 	getByType: function(inObjects, inType) {
 		var result = [];
-		for (var i=0, o; o=inObjects[i]; i++) {
+		for (var i=0, o; (o=inObjects[i]); i++) {
 			if (o.type == inType) {
 				result.push(o);
 			}
@@ -14,13 +15,13 @@ enyo.kind({
 	},
 	presentObject: function(inObject) {
 		switch (inObject.type) {
-			case "module":
-				return this.presentObjects(inObject.objects);
-			case "kind":
-				return this.presentKind(inObject);
-			case "function":
-			case "global":
-				return this.presentProperty(inObject);
+		case "module":
+			return this.presentObjects(inObject.objects);
+		case "kind":
+			return this.presentKind(inObject);
+		case "function":
+		case "global":
+			return this.presentProperty(inObject);
 		}
 	},
 	presentObjects: function(inObjects) {
@@ -32,7 +33,7 @@ enyo.kind({
 		var objs = this.getByType(o$, "kind");
 		if (objs.length) {
 			html += "<h3>Kinds</h3>";
-			for (i=0; o=objs[i]; i++) {
+			for (i=0; (o=objs[i]); i++) {
 				//w("<i>name:</i> ");
 				html += "<kind>" + o.name + "</kind><br/>";
 				html += this.presentComment(o.comment);
@@ -45,12 +46,12 @@ enyo.kind({
 		objs = this.getByType(o$, "function");
 		if (objs.length) {
 			html += "<h3>Functions</h3>";
-			for (i=0; o=objs[i]; i++) {
+			for (i=0; (o=objs[i]); i++) {
 				if (o.group) {
 					html += "<" + o.group + ">" + o.group + "</" + o.group  + ">";
 				}
-				html += "<label>" + o.name + "</label>: function(<arguments>" + o.value[0]['arguments'].join(", ") + "</arguments>)</label><br/>"
-			    html += this.presentComment(o.comment);
+				html += "<label>" + o.name + "</label>: function(<arguments>" + o.value[0]['arguments'].join(", ") + "</arguments>)</label><br/>";
+				html += this.presentComment(o.comment);
 
 			}
 			publicMethods = true;
@@ -59,7 +60,7 @@ enyo.kind({
 		objs = this.getByType(o$, "global");
 		if (objs.length) {
 			html += "<h3>Variables</h3>";
-			for (i=0; o=objs[i]; i++) {
+			for (i=0; (o=objs[i]); i++) {
 				html += this.presentComment(o.comment);
 				if (o.group) {
 					html += "<" + o.group + ">" + o.group + "</" + o.group  + ">";
@@ -73,7 +74,7 @@ enyo.kind({
 		}
 		//if object only has private fields and functions
 		if (!publicMethods) {
-		    html += "<h3>This module has no public properties or functions to display.</h3>";
+			html += "<h3>This module has no public properties or functions to display.</h3>";
 		}
 		return html;
 	},
@@ -95,16 +96,16 @@ enyo.kind({
 			html += inKind.name;
 			enyo.forEach(inKind.superkinds, function(e) {
 				/*
-				html += 
-					'<superkind>' 
+				html +=
+					'<superkind>'
 						+ '<a href=#' + e + '>'
-							+ e 
+							+ e
 						+ '</a>'
 					+ '</superkind>';
 				*/
-				html += 
+				html +=
 					' :: <a href=#' + e + '>'
-						+ e 
+						+ e
 					+ '</a>'
 					;
 			});
@@ -133,7 +134,7 @@ enyo.kind({
 	presentProperties: function(inProperties, inSource) {
 		var p$ = this.groupFilter(inProperties);
 		var html = '';
-		for (var i=0, p; p=p$[i]; i++) {
+		for (var i=0, p; (p=p$[i]); i++) {
 			html += this.presentProperty(p, inSource);
 		}
 		return html;
@@ -154,7 +155,7 @@ enyo.kind({
 		html += "<label>" + n + "</label>: ";
 		// right-hand side
 		if (o.value && o.value[0] && o.value[0].token == "function") {
-			// function signature 
+			// function signature
 			html += "function(<arguments>" + o.value[0]['arguments'].join(", ") + "</arguments>)<br/>";
 		} else {
 			// value
@@ -199,7 +200,7 @@ enyo.kind({
 		//console.log("array: ", inObject);
 		var html = '';
 		var props = inObject.properties;
-		for (var i=0, p; p=props[i]; i++) {
+		for (var i=0, p; (p=props[i]); i++) {
 			html += '<i>' + i + '</i>: ' + this.presentExpression(p);
 		}
 		return html;
@@ -213,7 +214,7 @@ enyo.kind({
 		var h = inHeight || 4;
 		var cols = [];
 		var html = '';
-		for (var i=0, c=0, r=0; p=p$[i]; i++) {
+		for (var i=0, r=0, p; (p=p$[i]); i++) {
 			html += '<a href="#' + prefix + p.name + '">' + p.name + '</a><br/>';
 			if (++r == h) {
 				cols.push(html);
