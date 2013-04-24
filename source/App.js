@@ -1,9 +1,10 @@
+/* global Presentor */
 enyo.kind({
 	name: "App",
 	fit: true,
 	kind: "FittableColumns",
 	components: [
-		{kind: "Analyzer", onIndexReady: "indexReady"},
+		{kind: "analyzer.Analyzer", onIndexReady: "indexReady"},
 		{name: "left", kind: "TabPanels", classes: "enyo-unselectable", components: [
 			{kind: "Scroller", tabName: "Kinds", components: [
 				{name: "kinds", allowHtml: true}
@@ -45,7 +46,7 @@ enyo.kind({
 	//
 	loadPackages: function() {
 		// alias this important object and reset indexer
-		this.index = this.$.analyzer.index = new Indexer();
+		this.index = this.$.analyzer.index = new analyzer.Indexer();
 		this.$.packages.loadPackageData();
 	},
 	packagesLoaded: function(inSender, inEvent) {
@@ -86,15 +87,15 @@ enyo.kind({
 	indexalize: function(inFilter, inTemplate, inMap) {
 		var filtered = inFilter ? enyo.filter(this.index.objects, inFilter, this) : this.index.objects;
 
-	    //sort module data
+		//sort module data
 		if (inFilter(filtered[0])) {
-		    filtered.sort(this.moduleCompare);
+			filtered.sort(this.moduleCompare);
 		}
-        
+
 		filtered = this.nameFilter(filtered);
 
 		var html = '', divider;
-		for (var i=0, o; o=filtered[i]; i++) {
+		for (var i=0, o; (o=filtered[i]); i++) {
 			if(this.visibleModule(o)) {
 				// divider
 				var d = inMap(o).divider;
@@ -116,17 +117,21 @@ enyo.kind({
 	moduleCompare: function(inA, inB) {
         var a, b;
         try {
-            a = inA.name.match('[^/]*\.js$')[0];
-            b = inB.name.match('[^/]*\.js$')[0];
+            a = inA.name.match('[^/]*\\.js$')[0];
+            b = inB.name.match('[^/]*\\.js$')[0];
         }
         catch (err) {
             a = inA.name;
             b = inB.name;
         }
 
-        if (a.toUpperCase() < b.toUpperCase()) return -1;
-        else if (a.toUpperCase() > b.toUpperCase()) return 1;
-        else return 0;
+        if (a.toUpperCase() < b.toUpperCase()) {
+			return -1;
+        } else if (a.toUpperCase() > b.toUpperCase()) {
+			return 1;
+        } else {
+			return 0;
+        }
 	},
 	nameFilter: function(inObjects) {
 		return enyo.filter(inObjects, function(o) {
@@ -141,7 +146,7 @@ enyo.kind({
 				topic: o.name.replace(".prototype", ""), //g11n - remove "prototype" string from index topic
 				divider: o.name[0].toUpperCase(),
 				object: o.object && o.object.name ? o.object.name + "::" : "",
-				module: !o.object && o.module && o.module.name ? " [" + o.module.name.match('[^/]*\.js$') + "]" : ""
+				module: !o.object && o.module && o.module.name ? " [" + o.module.name.match('[^/]*\\.js$') + "]" : ""
 			};
 		};
 		this.$.index.setContent(this.indexalize(inFilter, template, map));
@@ -161,8 +166,8 @@ enyo.kind({
             // enyo.log(o);
 			return {
 				link: o.topic || o.name,
-				topic: o.name.match('[^/]*\.js$'), // g11n - remove the path name
-				divider: o.name.match('[^/]*\.js$')[0][0].toUpperCase()				
+				topic: o.name.match('[^/]*\\.js$'), // g11n - remove the path name
+				divider: o.name.match('[^/]*\\.js$')[0][0].toUpperCase()
 			};
 		};
 		this.$.modules.setContent(this.indexalize(filter, template, map));
@@ -215,7 +220,7 @@ enyo.kind({
 		//
 		var toc$ = this.presentor.showInherited ? inKind.allProperties : inKind.properties;
 		toc$ = this.presentor.inlineProperties(toc$, {"published":1, "statics":1, "events":1});
-		toc$.sort(Indexer.nameCompare);
+		toc$.sort(analyzer.Indexer.nameCompare);
 		//
 		var toc = this.presentor.presentColumns(toc$, inKind);
 		this.$.toc.setContent(toc);
@@ -240,7 +245,7 @@ enyo.kind({
 	moduleTap: function(inSender) {
 		this.presentModule(inSender.object);
 	},
-	objectTap: function(inSender) {    
+	objectTap: function(inSender) {
 		this.presentObject(inSender.object);
 	},
 	//
