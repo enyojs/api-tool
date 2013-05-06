@@ -2,7 +2,9 @@
 	"version": "2.3.0",
 	"packages": [
 		{"name": "enyo", "path": "enyo/source"},
+		{"name": "layout/easing", "path": "lib/layout/easing"},
 		{"name": "layout/fittable", "path": "lib/layout/fittable"},
+		{"name": "layout/flex", "path": "lib/layout/flex"},
 		{"name": "layout/imageview", "path": "lib/layout/imageview"},
 		{"name": "layout/list", "path": "lib/layout/list"},
 		{"name": "layout/panels", "path": "lib/layout/panels"},
