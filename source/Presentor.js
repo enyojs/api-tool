@@ -103,11 +103,7 @@ enyo.kind({
 						+ '</a>'
 					+ '</superkind>';
 				*/
-				html +=
-					' :: <a href=#' + e + '>'
-						+ e
-					+ '</a>'
-					;
+				html += ' :: <a href=#' + e + '>' + e + '</a>';
 			});
 			html += '</div>';
 		}
@@ -117,9 +113,7 @@ enyo.kind({
 		var html = '';
 		if (inKind.comment) {
 			html +=
-				'<h3>Summary</h3>'
-				+ this.presentComment(inKind.comment)
-				;
+				'<h3>Summary</h3>' + this.presentComment(inKind.comment);
 		}
 		return html;
 	},
@@ -214,7 +208,7 @@ enyo.kind({
 		var h = inHeight || 4;
 		var cols = [];
 		var html = '';
-		for (var i=0, r=0, p; (p=p$[i]); i++) {
+		for (var i=0, c=0, r=0; (p=p$[i]); i++) {
 			html += '<a href="#' + prefix + p.name + '">' + p.name + '</a><br/>';
 			if (++r == h) {
 				cols.push(html);
@@ -233,6 +227,9 @@ enyo.kind({
 		html = html.replace(/<pre><code>([\s\S]*?)<\/code><\/pre>/gm, function(m, c) {
 			return "<pre>" + syntaxHighlight(c) + "</pre>";
 		});
+		// change external links to use target _blank for Chrome app support
+		html = html.replace(/<a href="http/gm, "<a target=\"_blank\" href=\"http");
+		html = html.replace(/<a href='http/gm, "<a target=\"_blank\" href=\'http");
 		return html;
 	},
 	// returns a new list where the properties of objects mentioned as
