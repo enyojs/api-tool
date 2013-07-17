@@ -68,29 +68,29 @@
 	font-size: 140%;
 }
 
-#app_doc {
+#app_doc, .api-doc {
 	padding: 8px 8px;
 }
 
-#app_scope {
+#app_doc_scope, .api-scope {
 	padding: 8px;
 	border-bottom: 1px dotted silver;
 }
 
-#app_header {
+#app_doc_header, .api-header {
 	padding: 8px;
 }
 
-#app_tocFrame {
+#app_doc_tocFrame, .api.tocFrame {
 	white-space: nowrap;
 }
 
-#app_toc {
+#app_doc_tocArea, .api.tocArea {
 }
 
 #app_bodyFrame {
 }
 
-#app_body {
+#app_body, .api-body {
 	padding: 8px;
 }
