@@ -15,13 +15,12 @@ enyo.kind({
         { tag: "prototype", name: "protoName" },
         { tag: "label", name: "labelContainer", components: [
             { tag: "span", name: "propertyTitle"},
-            { tag: "span", content: ":"}
+            { tag: "span", content: ": "}
         ] },
         { tag: "span", name: "functionSignature", components: [
             { tag: "span", content: "function("},
             { tag: "arguments", name: "functionArguments",content: ""},
-            { tag: "span", content: ")"},
-            { tag: "br"}
+            { tag: "span", content: ")"}
         ]}
     ],
     create: function() {
@@ -90,6 +89,5 @@ enyo.kind({
         } else {
             inElement.createComponent({kind: api.Expression, source: inValue.value[0], style: "display: inline;"}, { owner: this });
         }
-        inElement.createComponent({tag: "br"}, {owner: this});
     }
 });

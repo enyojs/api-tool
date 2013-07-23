@@ -2,6 +2,7 @@
 enyo.kind({
     name: "presentor.kind.Summary",
     kind: enyo.Control,
+    showing: false,
     published: {
         source: ""
     },
@@ -22,6 +23,7 @@ enyo.kind({
     },
     present: function() {
         this.reset();
+        this.show();
         this.$.summaryHeader.setContent("Summary");
         var source = this.getSource();
         this.$.summaryContainer.createComponent({kind: api.Comment, source: source}, {owner: this});
@@ -30,5 +32,6 @@ enyo.kind({
         this.$.summaryHeader.setContent("");
         this.$.summaryContainer.destroyComponents();
         this.$.summaryContainer.destroyClientControls();
+        this.hide();
     }
 });

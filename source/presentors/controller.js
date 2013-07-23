@@ -1,4 +1,6 @@
-/* Kind presentors controler:: presentors/contorller.js */
+/* Kind presentors controller:: presentors/contorller.js */
+var api = api;
+var presentor = presentor;
 enyo.kind({
     name: "api.presentors.Controller",
     kind: enyo.Control,
@@ -26,7 +28,7 @@ enyo.kind({
         ]},         
         {name: "bodyFrame", kind: "Scroller", fit: true, classes: "enyo-selectable", components: [
             {name: "indexBusy", kind: "Image", src: "assets/busy.gif", style: "padding-left: 8px;", showing: false},
-            {name: "body", classes: "api-body", components:[
+            {name: "body", fit:true, classes: "api-body", components:[
                 { kind: presentor.kind.Summary, name: "kindSummary"},
                 { kind: api.Properties, name: "kindProperties" },
                 { kind: presentor.objects.View, name: "objectsView" }
@@ -35,6 +37,11 @@ enyo.kind({
     ],
     create: function() {
         this.inherited(arguments);
+    },
+    rendered: function() {
+        if (this.showSocialComments) {
+            this.resetDisqus();
+        }
     },
     presentObject: function(inObject) {
         switch (inObject.type) {
@@ -64,18 +71,38 @@ enyo.kind({
 
         this.$.kindProperties.setSource(inKind);
         this.$.kindProperties.setProperties(accessibleProps);
-        this.$.body.render();        
+
+        this.$.bodyFrame.render();
         this.reflow();
+        this.resetDisqus();
     },
     presentObjects: function(inObjects) {
         this.resetKind();
         var accessibleObjects = api.helper.groupFilter(inObjects, this.showProtected);
         this.$.objectsHeader.setSource(accessibleObjects);
         this.$.objectsView.setSource(accessibleObjects);
+        this.resetDisqus();
     },
     presentProperty: function(inProperty) {
         this.resetKind();
         this.$.kindProperties.createComponent({kind: api.Property, property: inProperty});
+    },
+    resetDisqus: function() {
+        if (!this.showSocialComments) {    
+            return void(0);
+        }
+
+        var label = window.location.hash.replace("#","");
+        if (!this.$.body.$.disqus) {
+            this.$.body.createComponent({ 
+                kind: api.extra.Disqus, 
+                name: "disqus",
+                title: label
+            });
+        } else {
+            this.$.body.$.disqus.setTitle(label);    
+            this.$.body.$.disqus.reset();
+        }
     },
     resetKind: function() {
         this.$.kindHeader.reset();
@@ -102,7 +129,9 @@ enyo.kind({
     },
     commentsChange: function() {
         this.showSocialComments = this.$.commentsCb.getValue();
+        this.$.commentsCb.setAttribute("disabled", true);
         this.$.body.container.setScrollTop(0);
+        this.resetDisqus();
         this.doReSelectTopic();
     },
     isBusyChanged: function(oldVal) {

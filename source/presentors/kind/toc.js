@@ -2,6 +2,7 @@
 enyo.kind({
     name: "presentor.kind.Toc",
     kind: enyo.Control,
+    showing: false,
     published: {
         source: "",
         contents: ""
@@ -26,6 +27,7 @@ enyo.kind({
     },
     present: function() {
         this.reset();
+        this.show();
         var inKind = this.getSource();
         var contents = this.getContents();
         contents = api.helper.inlineProperties(contents, {"published":1, "statics":1, "events":1});
@@ -38,6 +40,7 @@ enyo.kind({
     reset: function() {
         this.destroyComponents();
         this.destroyClientControls();
+        this.hide();
     },
     formatToColumns: function(inProperties, inSource, inHeight) {
         //var p$ = api.helper.groupFilter(inProperties);

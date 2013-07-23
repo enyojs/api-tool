@@ -81,11 +81,11 @@
 	padding: 8px;
 }
 
-#app_doc_tocFrame, .api.tocFrame {
+#app_doc_tocFrame, .api-tocFrame {
 	white-space: nowrap;
 }
 
-#app_doc_tocArea, .api.tocArea {
+#app_doc_tocArea, .api-tocArea {
 }
 
 #app_bodyFrame {
@@ -93,4 +93,13 @@
 
 #app_body, .api-body {
 	padding: 8px;
+}
+
+
+
+.disqus-popup-info {
+	max-width: 25%;
+	word-wrap: break-word;
+	white-space: pre;
+
 }

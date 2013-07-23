@@ -23,8 +23,6 @@ enyo.kind({
     create: function() {
         this.inherited(arguments);
         window.onhashchange = enyo.bind(this, "hashChange");
-        // make a presentor
-        this.presentor = new Presentor();
         // load packages
         this.loadPackages();
     },

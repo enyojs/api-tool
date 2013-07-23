@@ -2,6 +2,7 @@
 enyo.kind({
     name: "api.Comment",
     kind: enyo.Control,
+    showing: false,
     published: {
         source: ""
     },
@@ -10,20 +11,22 @@ enyo.kind({
     ],
     create: function() {
         this.inherited(arguments);
-        if (this.getSource()) {
+        if (this.getSource() && this.getSource().comment) {
             this.present();
         }
     },
     sourceChanged: function(oldSource) {
-        if (oldSource != this.getSource()) {
+        if (oldSource != this.getSource() && this.getSource().comment) {
             this.present();
         }
     },
     present: function() {
         this.reset();
         this.$.comment.setContent(this.markupToHtml(this.getSource().comment));
+        this.show();
     },
     reset: function() {
+        this.hide();
         this.$.comment.setContent("");
     },
     markupToHtml: function(inMarkup) {

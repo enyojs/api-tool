@@ -8,6 +8,5 @@ enyo.depends(
     "shared/function.js",
     "kind",
     "objects",
-    "property",
     "controller.js"
     );

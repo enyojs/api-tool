@@ -2,6 +2,7 @@
 enyo.kind({
     name: "presentor.kind.Header",
     kind: enyo.Control,
+    showing: false,
     published: {
         source: ""
     },
@@ -22,7 +23,8 @@ enyo.kind({
         }
     },
     present: function() {
-        this.reset();
+        this.reset();        
+        this.show();
         var source = this.getSource();
 
         if (source.module && source.module.label) {
@@ -36,6 +38,7 @@ enyo.kind({
         }
     },
     reset: function() {
+        this.hide();
         this.$.packageLabel.setContent("");
         this.$.kindName.setContent("");
         this.$.inheritancePath.destroyComponents();

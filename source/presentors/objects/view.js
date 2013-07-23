@@ -4,6 +4,7 @@ enyo.kind({
     name: "presentor.objects.View",
     fit: true,
     kind: enyo.Control,
+    showing: false,
     published: {
         source: ""
     },
@@ -120,10 +121,11 @@ enyo.kind({
             && !singletonComponents.length) {
             this.$.remarks.createComponent({tag: "h3", content: "This module has no public properties or functions to display."}, {owner: this});
         }
-
+        this.show();
         this.render();
     },
     reset: function() {
+        this.hide();
         this.destroyComponents();
         this.destroyClientControls();
         this.createComponents(this.initials, {owner: this});

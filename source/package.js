@@ -6,7 +6,6 @@ enyo.depends(
 	"foss/syntaxhighlighter_3.0.83_fork/sh-min.js",
 	"extra",
 	"presentors",
-	"Presentor.js",
 	"PackagesEditor.js",
 	"PackageList.js",
 	"TabPanels.js",

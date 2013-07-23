@@ -4,6 +4,7 @@ enyo.kind({
     name: "presentor.objects.Header",
     kind: enyo.Control,
     tag: "moduleName",
+    showing: false,
     published: {
         source: ""
     },
@@ -24,8 +25,10 @@ enyo.kind({
         if (this.getSource()[0]) {
             this.setContent(this.getSource()[0].module.name);
         }
+        this.show();
     },
     reset: function() {
         this.setContent("");
+        this.hide();
     }
 });

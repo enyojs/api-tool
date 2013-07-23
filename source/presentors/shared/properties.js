@@ -39,10 +39,6 @@ enyo.kind({
         for (var i = 0, prop; (prop = filteredProps[i]); i++) {
             this.presentProperty(prop, ownerkind);
         }
-
-        if (ownerkind) {
-            //this.$.propertiesContainer.createComponent({ kind: api.extra.Disqus, name: "disqus"});
-        }
     },
     reset: function() {
         this.$.propertiesHeader.setContent("");
