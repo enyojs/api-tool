@@ -18,6 +18,7 @@ enyo.kind({
 		case "module":
 			return this.presentObjects(inObject.objects);
 		case "kind":
+		case "singleton":
 			return this.presentKind(inObject);
 		case "function":
 		case "global":
@@ -33,6 +34,19 @@ enyo.kind({
 		var objs = this.getByType(o$, "kind");
 		if (objs.length) {
 			html += "<h3>Kinds</h3>";
+			for (i=0; (o=objs[i]); i++) {
+				//w("<i>name:</i> ");
+				html += "<kind>" + o.name + "</kind><br/>";
+				html += this.presentComment(o.comment);
+				//html += "<blockquote>" + this.presentKind(o) + "</blockquote>";
+				//html += this.presentKind(o);
+			}
+			publicMethods = true;
+		}
+		//
+		objs = this.getByType(o$, "singleton");
+		if (objs.length) {
+			html += "<h3>Singletons</h3>";
 			for (i=0; (o=objs[i]); i++) {
 				//w("<i>name:</i> ");
 				html += "<kind>" + o.name + "</kind><br/>";
@@ -208,7 +222,7 @@ enyo.kind({
 		var h = inHeight || 4;
 		var cols = [];
 		var html = '';
-		for (var i=0, c=0, r=0; (p=p$[i]); i++) {
+		for (var i=0, r=0, p; (p=p$[i]); i++) {
 			html += '<a href="#' + prefix + p.name + '">' + p.name + '</a><br/>';
 			if (++r == h) {
 				cols.push(html);

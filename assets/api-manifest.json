@@ -2,6 +2,7 @@
 	"version": "2.3.0",
 	"packages": [
 		{"name": "enyo", "path": "enyo/source"},
+		{"name": "layout/contextual", "path": "lib/layout/contextual"},
 		{"name": "layout/easing", "path": "lib/layout/easing"},
 		{"name": "layout/fittable", "path": "lib/layout/fittable"},
 		{"name": "layout/imageview", "path": "lib/layout/imageview"},
