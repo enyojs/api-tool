@@ -18,6 +18,7 @@ enyo.kind({
 		case "module":
 			return this.presentObjects(inObject.objects);
 		case "kind":
+		case "singleton":
 			return this.presentKind(inObject);
 		case "function":
 		case "global":
@@ -33,6 +34,19 @@ enyo.kind({
 		var objs = this.getByType(o$, "kind");
 		if (objs.length) {
 			html += "<h3>Kinds</h3>";
+			for (i=0; (o=objs[i]); i++) {
+				//w("<i>name:</i> ");
+				html += "<kind>" + o.name + "</kind><br/>";
+				html += this.presentComment(o.comment);
+				//html += "<blockquote>" + this.presentKind(o) + "</blockquote>";
+				//html += this.presentKind(o);
+			}
+			publicMethods = true;
+		}
+		//
+		objs = this.getByType(o$, "singleton");
+		if (objs.length) {
+			html += "<h3>Singletons</h3>";
 			for (i=0; (o=objs[i]); i++) {
 				//w("<i>name:</i> ");
 				html += "<kind>" + o.name + "</kind><br/>";
@@ -103,11 +117,7 @@ enyo.kind({
 						+ '</a>'
 					+ '</superkind>';
 				*/
-				html +=
-					' :: <a href=#' + e + '>'
-						+ e
-					+ '</a>'
-					;
+				html += ' :: <a href=#' + e + '>' + e + '</a>';
 			});
 			html += '</div>';
 		}
@@ -117,9 +127,7 @@ enyo.kind({
 		var html = '';
 		if (inKind.comment) {
 			html +=
-				'<h3>Summary</h3>'
-				+ this.presentComment(inKind.comment)
-				;
+				'<h3>Summary</h3>' + this.presentComment(inKind.comment);
 		}
 		return html;
 	},
@@ -233,6 +241,9 @@ enyo.kind({
 		html = html.replace(/<pre><code>([\s\S]*?)<\/code><\/pre>/gm, function(m, c) {
 			return "<pre>" + syntaxHighlight(c) + "</pre>";
 		});
+		// change external links to use target _blank for Chrome app support
+		html = html.replace(/<a href="http/gm, "<a target=\"_blank\" href=\"http");
+		html = html.replace(/<a href='http/gm, "<a target=\"_blank\" href=\'http");
 		return html;
 	},
 	// returns a new list where the properties of objects mentioned as
