@@ -1,88 +1,40 @@
+@REM don't watch the sausage being made
 @ECHO OFF
 
-REM the deploy target folder
-SET FOLDER=deploy
+REM the folder this script is in (*/bootplate/tools)
+SET TOOLS=%~DP0
 
-REM the deploy target suffix, i.e. <projectName>[suffix]
-SET SUFFIX= - %date% - %time%
-
-REM remove spaces, convert / : to _, convert . to ~
-set SUFFIX=%SUFFIX: =%
-set SUFFIX=%SUFFIX:/=-%
-set SUFFIX=%SUFFIX::=-%
-set SUFFIX=%SUFFIX:.=~%
+REM application source location
+SET SRC=%TOOLS%\..
 
 REM enyo location
-SET ENYO=..\enyo
+SET ENYO=%SRC%\enyo
 
-REM the grandparent folder for this batch file
-SET SOURCE=%~dp0..\
+REM deploy script location
+SET DEPLOY=%ENYO%\tools\deploy.js
 
-REM extract project folder name
-FOR /D %%I IN ("%SOURCE%\.") DO SET NAME=%%~nxI
+REM node location
+SET NODE=node.exe
 
-REM prepare target name
-SET DEPLOY=%NAME%%SUFFIX%
+REM use node to invoke deploy.js with imported parameters
+ECHO %NODE% "%DEPLOY%" -T -s "%SRC%" -o "%SRC%\deploy" %*
+%NODE% "%DEPLOY%" -T -s "%SRC%" -o "%SRC%\deploy" %*
 
-REM make sure (deploy) FOLDER exists
-SET TARGET="%SOURCE%%FOLDER%"
-IF NOT EXIST %TARGET% mkdir %TARGET%
+REM copy files and package if deploying to cordova webos
+:again
+if not "%1" == "" (
 
-REM pull path for this deploy
-SET TARGET="%SOURCE%%FOLDER%\%DEPLOY%"
+    if "%1" == "--cordova-webos" (
+	REM copy appinfo.json and cordova*.js files
+	for %%A in ("%~dp0./..") do SET DEST=%TOOLS%..\deploy\%%~nA
+	copy %SRC%\appinfo.json %DEST%
+	copy %SRC%\cordova*.js %DEST%
 
-REM quotes around path that might have spaces
-SET SOURCE="%SOURCE%"
+	REM package it up
+	if not exist %SRC%\bin mkdir %SRC%\bin
+	palm-package.bat %DEST% --outdir=%SRC%\bin
+    )
 
-ECHO This script can create a deployment in %TARGET%
-ECHO.
-
-IF NOT EXIST %TARGET% GOTO deploy
-
-ECHO "%DEPLOY%" folder already exists, please rename or remove it and try again.
-ECHO.
-
-PAUSE
-EXIT
-
-:DEPLOY
-
-ECHO ==========
-ECHO build step
-ECHO ==========
-ECHO.
-
-REM build enyo
-CALL %ENYO%\minify\minify.bat
-
-REM build app
-CALL %ENYO%\tools\minify.bat package.js -output ..\build\app
-
-ECHO =========
-ECHO copy step
-ECHO =========
-ECHO.
-
-REM make deploy folder
-MKDIR %TARGET%
-
-REM copy root folder files
-COPY %SOURCE%index.html %TARGET% >NUL
-COPY %SOURCE%icon.png %TARGET% >NUL
-
-REM copy assets and build
-XCOPY %SOURCE%assets\*.* %TARGET%\assets\ /Q /E >NUL
-XCOPY %SOURCE%build\*.* %TARGET%\build\ /Q /E >NUL
-
-REM copy library items
-MKDIR %TARGET%\lib
-
-FOR /D %%G in (%SOURCE%lib\*) DO IF EXIST "%%G\deploy.bat" ECHO deploying "%%~nxG"
-FOR /D %%G in (%SOURCE%lib\*) DO IF EXIST "%%G\deploy.bat" CALL "%%G\deploy.bat" %TARGET%\lib\"%%~nxG"
-
-FOR /D %%G in (%SOURCE%lib\*) DO IF NOT EXIST "%%G\deploy.bat" ECHO copying "%%~nxG"
-FOR /D %%G in (%SOURCE%lib\*) DO IF NOT EXIST "%%G\deploy.bat" XCOPY "%%G" %TARGET%\lib\"%%~nxG"\ /Q /E >NUL
-
-ECHO.
-
-PAUSE
+    shift
+    goto again
+)
