@@ -13,6 +13,6 @@
 [submodule "lib/canvas"]
 	path = lib/canvas
 	url = ../canvas.git
-[submodule "lib/g11n"]
-	path = lib/g11n
-	url = ../g11n.git
+[submodule "lib/moonstone"]
+	path = lib/moonstone
+	url = git@github.com:enyojs/moonstone.git

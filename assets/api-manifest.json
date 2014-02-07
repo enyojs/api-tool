@@ -1,5 +1,5 @@
 {
-	"version": "2.3.0",
+	"version": "2.4.0-pre.1",
 	"packages": [
 		{"name": "enyo", "path": "enyo/source"},
 		{"name": "layout/contextual", "path": "lib/layout/contextual"},
@@ -11,9 +11,7 @@
 		{"name": "layout/slideable", "path": "lib/layout/slideable"},
 		{"name": "layout/tree", "path": "lib/layout/tree"},
 		{"name": "onyx", "path": "lib/onyx"},
-		{"name": "canvas", "path": "lib/canvas"},
-		{"name": "g11n/base", "path": "lib/g11n"},
-		{"name": "g11n/name", "path": "lib/g11n/source/name"},
-		{"name": "g11n/phone", "path": "lib/g11n/source/phone"}
+		{"name": "moonstone", "path": "lib/moonstone"},
+		{"name": "canvas", "path": "lib/canvas"}
 	]
 }

@@ -113,7 +113,7 @@ enyo.kind({
 		var index = inEvent.index;
 		var p = this.pkgs[index];
 		if (p) {
-			p.disabled = !(inSender.getChecked());
+			p.disabled = !(inEvent.originator.getChecked());
 			this.savePackageData();
 		}
 		this.doPackagesChange({pkg: p});
