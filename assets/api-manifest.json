@@ -1,5 +1,5 @@
 {
-	"version": "2.4.0-pre.2",
+	"version": "2.4.0",
 	"packages": [
 		{"name": "enyo", "path": "enyo/source"},
 		{"name": "layout/contextual", "path": "lib/layout/contextual"},
